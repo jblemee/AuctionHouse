@@ -1,9 +1,8 @@
 {
-	"required": true,
-	"package": "unsafedodo.fabricplayerauction.mixin",
+	"required": false,
+	"package": "unsafedodo.fabricauctionhouse.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

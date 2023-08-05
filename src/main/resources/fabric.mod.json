@@ -1,33 +1,25 @@
 {
 	"schemaVersion": 1,
-	"id": "fabric-playerauction",
+	"id": "fabric-auctionhouse",
 	"version": "${version}",
-	"name": "Fabric PlayerAuction",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Fabric AuctionHouse",
+	"description": "This is a mod to allow players to list items for an auction",
 	"authors": [
-		"Me!"
+		"UnsafeDodo"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/fabric-playerauction/icon.png",
+	"icon": "assets/fabric-auctionhouse/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"unsafedodo.fabricplayerauction.ExampleMod"
-		],
-		"client": [
-			"unsafedodo.fabricplayerauction.ExampleModClient"
+			"unsafedodo.fabricauctionhouse.AuctionHouseMain"
 		]
 	},
 	"mixins": [
-		"fabric-playerauction.mixins.json",
-		{
-			"config": "fabric-playerauction.client.mixins.json",
-			"environment": "client"
-		}
 	],
 	"depends": {
 		"fabricloader": ">=0.14.22",
