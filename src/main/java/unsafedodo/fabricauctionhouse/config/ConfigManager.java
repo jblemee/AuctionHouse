@@ -2,14 +2,9 @@ package unsafedodo.fabricauctionhouse.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import unsafedodo.fabricauctionhouse.AuctionHouseMain;
-import unsafedodo.fabricauctionhouse.auction.AuctionHouse;
-import unsafedodo.fabricauctionhouse.auction.AuctionItem;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class ConfigManager {
 
@@ -39,14 +34,5 @@ public class ConfigManager {
         }
 
         return success;
-    }
-
-    public void saveToFile() throws IOException {
-        String jsonString = ConfigManager.GSON.toJson(getConfigData(configFile));
-        {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8));
-            writer.write(jsonString);
-            writer.close();
-        }
     }
 }

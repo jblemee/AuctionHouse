@@ -1,5 +1,4 @@
 package unsafedodo.fabricauctionhouse.command;
 
-public class PlayerAuctionAddCommand {
-
+public class AuctionHouseReloadCommand {
 }

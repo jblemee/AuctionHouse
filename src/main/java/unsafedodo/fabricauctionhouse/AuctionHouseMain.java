@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unsafedodo.fabricauctionhouse.auction.AuctionHouse;
 import unsafedodo.fabricauctionhouse.auction.ExpiredItems;
+import unsafedodo.fabricauctionhouse.config.ConfigManager;
 import unsafedodo.fabricauctionhouse.sql.DatabaseManager;
 import unsafedodo.fabricauctionhouse.sql.SQLiteDatabaseManager;
+import unsafedodo.fabricauctionhouse.util.Register;
 
 import java.util.ArrayList;
 
@@ -33,11 +35,14 @@ public class AuctionHouseMain implements ModInitializer {
 	}
 	@Override
 	public void onInitialize() {
+		if(!ConfigManager.loadConfig())
+			throw new RuntimeException("Could not load config");
+
 		LOGGER.info("Fabric AuctionHouse loaded!");
+
 		ServerLifecycleEvents.SERVER_STARTED.register(AuctionHouseMain::onServerStarted);
 		tableRegistry.add("CREATE TABLE IF NOT EXISTS auctionhouse (id integer PRIMARY KEY AUTOINCREMENT, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL, secondsleft long NOT NULL);");
 		tableRegistry.add("CREATE TABLE IF NOT EXISTS expireditems (id integer PRIMARY KEY, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL);");
-
-
+		Register.registerCommands();
 	}
 }

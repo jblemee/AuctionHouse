@@ -37,7 +37,7 @@ public class AuctionItem {
             itemStack1.setNbt(tnbt);
         } catch (CommandSyntaxException e) {
             e.printStackTrace();
-            itemStack1 = new ItemStack(Items.GRAY_STAINED_GLASS_PANE);
+            itemStack1 = new ItemStack(Items.AIR);
         }
         this.itemStack = itemStack1;
         this.nbt = nbt;

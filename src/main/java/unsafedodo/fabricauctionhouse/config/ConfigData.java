@@ -1,9 +1,6 @@
 package unsafedodo.fabricauctionhouse.config;
 
 public class ConfigData {
-
-    //AuctionHouse auctionHouse;
-    //ExpiredItems expiredItems;
     int maxItemsPerPlayer;
     long auctionSecondsDuration;
     int auctionHouseMaxPages;
