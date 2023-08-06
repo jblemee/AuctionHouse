@@ -61,4 +61,8 @@ public class AuctionHouse {
         }
         return ah;
     }
+
+    public int getSize(){
+        return items.size();
+    }
 }

@@ -11,7 +11,10 @@ import unsafedodo.fabricauctionhouse.auction.ExpiredItems;
 import unsafedodo.fabricauctionhouse.config.ConfigManager;
 import unsafedodo.fabricauctionhouse.sql.DatabaseManager;
 import unsafedodo.fabricauctionhouse.sql.SQLiteDatabaseManager;
+import unsafedodo.fabricauctionhouse.util.EconomyTransactionHandler;
 import unsafedodo.fabricauctionhouse.util.Register;
+
+import static com.epherical.octoecon.api.event.EconomyEvents.ECONOMY_CHANGE_EVENT;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,8 @@ public class AuctionHouseMain implements ModInitializer {
 
 	public static ArrayList<String> tableRegistry = new ArrayList<>();
 
+	public static final EconomyTransactionHandler transactionHandler = new EconomyTransactionHandler();
+
 	public static DatabaseManager getDatabaseManager(){
 		return new SQLiteDatabaseManager();
 	}
@@ -32,6 +37,7 @@ public class AuctionHouseMain implements ModInitializer {
 	public static void onServerStarted(MinecraftServer server){
 		ah = new AuctionHouse(SQLiteDatabaseManager.getItemList());
 		ei = new ExpiredItems(SQLiteDatabaseManager.getExpiredItemsList());
+		ECONOMY_CHANGE_EVENT.register(transactionHandler);
 	}
 	@Override
 	public void onInitialize() {

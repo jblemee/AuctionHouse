@@ -169,4 +169,5 @@ public class SQLiteDatabaseManager implements DatabaseManager{
             e.printStackTrace();
         }
     }
+
 }
