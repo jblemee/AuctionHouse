@@ -8,6 +8,10 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import unsafedodo.fabricauctionhouse.AuctionHouseMain;
+import unsafedodo.fabricauctionhouse.auction.AuctionHouse;
+import unsafedodo.fabricauctionhouse.auction.AuctionItem;
+import unsafedodo.fabricauctionhouse.auction.ExpiredItems;
 
 public class AuctionHouseCancelCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
@@ -18,6 +22,14 @@ public class AuctionHouseCancelCommand {
     }
 
     private static int run(CommandContext<ServerCommandSource> context) {
+        AuctionHouse personalHouse = AuctionHouseMain.ah.getPlayerAuctionHouse(context.getSource().getPlayer().getUuidAsString());
+        if(personalHouse.getSize() > 0){
+            for(AuctionItem item: personalHouse.items){
+                AuctionHouseMain.getDatabaseManager().expireItem(item);
+            }
+            context.getSource().sendFeedback(()-> Text.literal("All your items on auction have been cancelled"), false);
+        } else
+            context.getSource().sendFeedback(()-> Text.literal("You don't have any item on auction").formatted(Formatting.RED), false);
 
         return 0;
     }

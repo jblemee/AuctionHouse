@@ -3,7 +3,7 @@ package unsafedodo.fabricauctionhouse.auction;
 import java.util.ArrayList;
 
 public class ExpiredItems {
-    private ArrayList<AuctionItem> items;
+    public ArrayList<AuctionItem> items;
 
     public ExpiredItems(ArrayList<AuctionItem> items){
         this.items = items;

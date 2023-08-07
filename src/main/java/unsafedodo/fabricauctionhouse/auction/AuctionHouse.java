@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuctionHouse {
-    private ArrayList<AuctionItem> items;
+    public ArrayList<AuctionItem> items;
     int tick = 0;
 
     public AuctionHouse(ArrayList<AuctionItem> items){

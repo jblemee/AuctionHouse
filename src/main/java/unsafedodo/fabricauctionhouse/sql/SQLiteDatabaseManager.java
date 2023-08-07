@@ -145,6 +145,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
         try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, item.getId());
             pstmt.executeUpdate();
+            AuctionHouseMain.ei.removeItem(item);
         } catch (SQLException e) {
             e.printStackTrace();
         }

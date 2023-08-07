@@ -19,15 +19,11 @@ import static com.epherical.octoecon.api.event.EconomyEvents.ECONOMY_CHANGE_EVEN
 import java.util.ArrayList;
 
 public class AuctionHouseMain implements ModInitializer {
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
     public static final Logger LOGGER = LoggerFactory.getLogger("fabric-auctionhouse");
-	public static AuctionHouse ah = new AuctionHouse(null);
+
+	public static AuctionHouse ah;
 	public static ExpiredItems ei;
-
 	public static ArrayList<String> tableRegistry = new ArrayList<>();
-
 	public static final EconomyTransactionHandler transactionHandler = new EconomyTransactionHandler();
 
 	public static DatabaseManager getDatabaseManager(){
@@ -35,10 +31,12 @@ public class AuctionHouseMain implements ModInitializer {
 	}
 
 	public static void onServerStarted(MinecraftServer server){
+		SQLiteDatabaseManager.createTables(tableRegistry);
 		ah = new AuctionHouse(SQLiteDatabaseManager.getItemList());
 		ei = new ExpiredItems(SQLiteDatabaseManager.getExpiredItemsList());
 		ECONOMY_CHANGE_EVENT.register(transactionHandler);
 	}
+
 	@Override
 	public void onInitialize() {
 		if(!ConfigManager.loadConfig())
@@ -46,9 +44,9 @@ public class AuctionHouseMain implements ModInitializer {
 
 		LOGGER.info("Fabric AuctionHouse loaded!");
 
-		ServerLifecycleEvents.SERVER_STARTED.register(AuctionHouseMain::onServerStarted);
 		tableRegistry.add("CREATE TABLE IF NOT EXISTS auctionhouse (id integer PRIMARY KEY AUTOINCREMENT, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL, secondsleft long NOT NULL);");
 		tableRegistry.add("CREATE TABLE IF NOT EXISTS expireditems (id integer PRIMARY KEY, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL);");
+		ServerLifecycleEvents.SERVER_STARTED.register(AuctionHouseMain::onServerStarted);
 		Register.registerCommands();
 	}
 }
