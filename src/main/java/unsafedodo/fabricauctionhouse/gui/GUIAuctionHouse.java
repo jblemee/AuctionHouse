@@ -26,7 +26,7 @@ import java.io.UnsupportedEncodingException;
 
 
 public class GUIAuctionHouse extends SimpleGui {
-    public static final int PAGE_SIZE = 36; //9x4
+    public static final int PAGE_SIZE = 45; //9x5
 
     public static int maxPageNumber;
 
@@ -43,6 +43,7 @@ public class GUIAuctionHouse extends SimpleGui {
 
     public <T extends GUIAuctionHouse> GUIAuctionHouse(ServerPlayerEntity player) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
+        this.setTitle(Text.literal("Auction House"));
     }
 
     protected void nextPage() throws FileNotFoundException, UnsupportedEncodingException {

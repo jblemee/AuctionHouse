@@ -32,6 +32,7 @@ public class AuctionItem {
         this.id = id;
         try {
             itemStack1 = new ItemStack(Registries.ITEM.get(new Identifier(item)), count);
+            System.out.println(itemStack1.getItem().getName().toString());
             NbtCompound tnbt = StringNbtReader.parse(nbt);
             tnbt.remove("palette");
             itemStack1.setNbt(tnbt);
@@ -88,13 +89,13 @@ public class AuctionItem {
         int minutes = (int) (seconds / 60);
         seconds -= minutes * 60L;
         if (days > 0) {
-            return String.format("%02d:%02d:%02d" + "m", days, hours, minutes);
+            return String.format("%02dd:%02dh:%02dm", days, hours, minutes);
         } else {
             if (hours > 0) {
-                return String.format("%02d:%02d:%02d" + "s", hours, minutes, seconds);
+                return String.format("%02dh:%02dm:%02ds", hours, minutes, seconds);
             }
         }
-        return (minutes > 0) ? String.format("%02d:%02d" + "s", minutes, seconds) : (seconds + "s");
+        return (minutes > 0) ? String.format("%02dm:%02ds", minutes, seconds) : (seconds + "s");
     }
 
     public boolean tickDeath() {

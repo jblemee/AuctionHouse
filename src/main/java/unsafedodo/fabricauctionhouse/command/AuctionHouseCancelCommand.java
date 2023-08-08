@@ -17,7 +17,7 @@ public class AuctionHouseCancelCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){
         dispatcher.register(CommandManager.literal("ah")
                 .then(CommandManager.literal("cancel")
-                        .requires(Permissions.require("auctionhouse.cancel"))
+                        .requires(Permissions.require("auctionhouse.cancel", 0))
                         .executes(AuctionHouseCancelCommand::run)));
     }
 
@@ -27,7 +27,7 @@ public class AuctionHouseCancelCommand {
             for(AuctionItem item: personalHouse.items){
                 AuctionHouseMain.getDatabaseManager().expireItem(item);
             }
-            context.getSource().sendFeedback(()-> Text.literal("All your items on auction have been cancelled"), false);
+            context.getSource().sendFeedback(()-> Text.literal("All your items on auction have been cancelled").formatted(Formatting.GREEN), false);
         } else
             context.getSource().sendFeedback(()-> Text.literal("You don't have any item on auction").formatted(Formatting.RED), false);
 

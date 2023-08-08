@@ -5,14 +5,14 @@ public class ConfigData {
     long auctionSecondsDuration;
     int auctionHouseMaxPages;
 
-    public ConfigData(int maxItemsPerPlayer, int auctionSecondsDuration, int auctionHouseMaxPages) {
+    public ConfigData(int maxItemsPerPlayer, long auctionSecondsDuration, int auctionHouseMaxPages) {
         this.maxItemsPerPlayer = maxItemsPerPlayer;
         this.auctionSecondsDuration = auctionSecondsDuration;
         this.auctionHouseMaxPages = auctionHouseMaxPages;
     }
 
     public ConfigData(){
-        this(5, 7, 50);
+        this(10, 604800L, 50);
     }
 
     public int getMaxItemsPerPlayer() {

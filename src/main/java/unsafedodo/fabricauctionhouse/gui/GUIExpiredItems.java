@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
 public class GUIExpiredItems extends SimpleGui {
-    public static final int PAGE_SIZE = 36; //9x4
+    public static final int PAGE_SIZE = 45; //9x5
 
     public static int maxPageNumber;
 
@@ -41,6 +41,7 @@ public class GUIExpiredItems extends SimpleGui {
 
     public <T extends  GUIExpiredItems> GUIExpiredItems(ServerPlayerEntity player) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
+        this.setTitle(Text.literal("Expired Items"));
         expired = AuctionHouseMain.ei.getPlayerExpiredItems(player.getUuidAsString());
     }
 
@@ -94,6 +95,18 @@ public class GUIExpiredItems extends SimpleGui {
 
     protected DisplayElement getNavElement(int id) {
         return switch (id) {
+            case 0 -> DisplayElement.of(
+                    new GuiElementBuilder(Items.RED_CONCRETE)
+                            .setName(Text.literal("Back").formatted(Formatting.RED))
+                            .hideFlags()
+                            .setCallback((x, y, z) -> {
+                                playClickSound(this.player);
+                                try {
+                                    openPublic();
+                                } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }));
             case 3 -> DisplayElement.previousPage(this);
             case 4 -> DisplayElement.of(
                     new GuiElementBuilder(Items.BARRIER)
@@ -133,6 +146,14 @@ public class GUIExpiredItems extends SimpleGui {
             player.getInventory().offerOrDrop(item.getItemStack());
             updateDisplay();
         }
+    }
+
+    private void openPublic() throws FileNotFoundException, UnsupportedEncodingException {
+        this.close();
+        GUIAuctionHouse gui = new GUIAuctionHouse(player);
+        gui.updateDisplay();
+        gui.setTitle(Text.literal("Auction House"));
+        gui.open();
     }
 
     @Override

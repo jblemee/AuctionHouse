@@ -10,6 +10,7 @@ public class Register {
         CommandRegistrationCallback.EVENT.register(AuctionHouseHelpCommand::register);
         CommandRegistrationCallback.EVENT.register(AuctionHouseMainCommand::register);
         CommandRegistrationCallback.EVENT.register(AuctionHouseReturnCommand::register);
+        CommandRegistrationCallback.EVENT.register(AuctionHouseReloadCommand::register);
         CommandRegistrationCallback.EVENT.register(AuctionHouseSellCommand::register);
         CommandRegistrationCallback.EVENT.register(AuctionHouseSellingCommand::register);
     }

@@ -2,6 +2,7 @@ package unsafedodo.fabricauctionhouse.sql;
 
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
+import unsafedodo.fabricauctionhouse.util.CommonMethods;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
         ArrayList<AuctionItem> list = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()){
-                list.add(new AuctionItem(rs.getInt("id"), rs.getString("playeruuid"), rs.getString("owner"), rs.getString("item"), rs.getString("nbt"), rs.getInt("count"), rs.getDouble("price"), rs.getLong("secondsLeft")));
+                list.add(new AuctionItem(rs.getInt("id"), rs.getString("playeruuid"), rs.getString("owner"), rs.getString("nbt"), rs.getString("item"), rs.getInt("count"), rs.getDouble("price"), rs.getLong("secondsLeft")));
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -71,6 +72,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
             pstmt.setDouble(6, price);
             pstmt.setLong(7, secondsLeft);
             pstmt.executeUpdate();
+            CommonMethods.reloadHouse();
             return getMostRecentId();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,6 +135,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
         try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, item.getId());
             pstmt.executeUpdate();
+            AuctionHouseMain.ah.removeItem(item);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -143,9 +146,10 @@ public class SQLiteDatabaseManager implements DatabaseManager{
         String sql = "DELETE FROM expireditems WHERE id = ?";
 
         try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            //sta parte qui a caso quando viene fatto return, e rifatto una seconda volta, contiene un item AIR che non dovrebbe esistere
             pstmt.setInt(1, item.getId());
-            pstmt.executeUpdate();
             AuctionHouseMain.ei.removeItem(item);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -25,7 +25,7 @@ import java.io.UnsupportedEncodingException;
 
 public class GUIPersonalAuctionHouse extends SimpleGui {
 
-    public static final int PAGE_SIZE = 36; //9x4
+    public static final int PAGE_SIZE = 45; //9x5
     protected int page = 0;
     private int ticker = 0;
 
@@ -42,6 +42,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
 
     public <T extends GUIPersonalAuctionHouse> GUIPersonalAuctionHouse(ServerPlayerEntity player) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
+        this.setTitle(Text.literal("My items"));
         ah = AuctionHouseMain.ah.getPlayerAuctionHouse(player.getUuidAsString());
     }
 

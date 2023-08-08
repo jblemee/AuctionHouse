@@ -7,8 +7,10 @@ import eu.pb4.sgui.api.elements.GuiElementInterface;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -18,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
 import unsafedodo.fabricauctionhouse.util.EconomyTransactionHandler;
+import unsafedodo.fabricauctionhouse.util.Register;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
@@ -154,6 +157,7 @@ public class GUIAuctionItem extends SimpleGui {
                     EconomyTransactionHandler.purchaseItem(player.getUuidAsString(), item.getPrice());
                     AuctionHouseMain.getDatabaseManager().removeItemFromAuction(item);
                     player.getInventory().offerOrDrop(item.getItemStack());
+                    player.sendMessage(Text.literal("You have purchased "+ item.getItemStack().getRegistryEntry().value() +" from " + item.getOwner() +" for "+item.getPrice()+" $").formatted(Formatting.GREEN));
                 }
             }
         } else

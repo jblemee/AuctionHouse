@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
@@ -51,7 +52,7 @@ public class AuctionHouseSellCommand {
                     double price = DoubleArgumentType.getDouble(context, "price");
                     NbtCompound nbtCompound = player.getMainHandStack().getOrCreateNbt();
                     ItemStack itemInHand = player.getMainHandStack();
-                    String item = String.valueOf(Registries.ITEM.getKey(itemInHand.getItem()));
+                    String item = Registries.ITEM.getId(itemInHand.getItem()).toString();
                     ConfigData configData = ConfigManager.getConfigData(ConfigManager.configFile);
                     AuctionItem newItem = new AuctionItem(AuctionHouseMain.getDatabaseManager().addItemToAuction(playerUuid, player.getName().getString(), nbtCompound.toString(), item, itemInHand.getCount(), price, configData.getAuctionSecondsDuration()), playerUuid, player.getName().getString(), itemInHand, price, configData.getAuctionSecondsDuration());
                     AuctionHouseMain.ah.addItem(newItem);

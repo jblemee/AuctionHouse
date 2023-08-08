@@ -11,6 +11,7 @@ import unsafedodo.fabricauctionhouse.auction.ExpiredItems;
 import unsafedodo.fabricauctionhouse.config.ConfigManager;
 import unsafedodo.fabricauctionhouse.sql.DatabaseManager;
 import unsafedodo.fabricauctionhouse.sql.SQLiteDatabaseManager;
+import unsafedodo.fabricauctionhouse.util.CommonMethods;
 import unsafedodo.fabricauctionhouse.util.EconomyTransactionHandler;
 import unsafedodo.fabricauctionhouse.util.Register;
 
@@ -32,9 +33,8 @@ public class AuctionHouseMain implements ModInitializer {
 
 	public static void onServerStarted(MinecraftServer server){
 		SQLiteDatabaseManager.createTables(tableRegistry);
-		ah = new AuctionHouse(SQLiteDatabaseManager.getItemList());
-		ei = new ExpiredItems(SQLiteDatabaseManager.getExpiredItemsList());
-		ECONOMY_CHANGE_EVENT.register(transactionHandler);
+		CommonMethods.reloadHouse();
+		CommonMethods.reloadExpired();
 	}
 
 	@Override
@@ -44,9 +44,13 @@ public class AuctionHouseMain implements ModInitializer {
 
 		LOGGER.info("Fabric AuctionHouse loaded!");
 
-		tableRegistry.add("CREATE TABLE IF NOT EXISTS auctionhouse (id integer PRIMARY KEY AUTOINCREMENT, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL, secondsleft long NOT NULL);");
+		tableRegistry.add("CREATE TABLE IF NOT EXISTS auctionhouse (id integer PRIMARY KEY AUTOINCREMENT, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL, secondsLeft long NOT NULL);");
 		tableRegistry.add("CREATE TABLE IF NOT EXISTS expireditems (id integer PRIMARY KEY, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL);");
 		ServerLifecycleEvents.SERVER_STARTED.register(AuctionHouseMain::onServerStarted);
 		Register.registerCommands();
+
+		ECONOMY_CHANGE_EVENT.register(currentEconomy -> {
+			transactionHandler.onEconomyChanged(currentEconomy);
+		});
 	}
 }
