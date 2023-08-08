@@ -146,6 +146,7 @@ public class GUIAuctionItem extends SimpleGui {
     }
 
     private void remove(){
+        System.out.println("EXPIRE REMOVE");
         AuctionHouseMain.getDatabaseManager().expireItem(item);
         close();
     }
@@ -157,7 +158,7 @@ public class GUIAuctionItem extends SimpleGui {
                     EconomyTransactionHandler.purchaseItem(player.getUuidAsString(), item.getPrice());
                     AuctionHouseMain.getDatabaseManager().removeItemFromAuction(item);
                     player.getInventory().offerOrDrop(item.getItemStack());
-                    player.sendMessage(Text.literal("You have purchased "+ item.getItemStack().getRegistryEntry().value() +" from " + item.getOwner() +" for "+item.getPrice()+" $").formatted(Formatting.GREEN));
+                    player.sendMessage(Text.literal("You have purchased "+ item.getDisplayName() +" from " + item.getOwner() +" for "+item.getPrice()+" $").formatted(Formatting.GREEN));
                 }
             }
         } else

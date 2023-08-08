@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SQLiteDatabaseManager implements DatabaseManager{
-    public static String url = "jdbc:sqlite:auctionhousedb.db";
+    public static String url = "jdbc:sqlite:auctionhouse.db";
 
     private Connection connect(){
         Connection connection = null;
@@ -143,12 +143,12 @@ public class SQLiteDatabaseManager implements DatabaseManager{
 
     @Override
     public void removeItemFromExpired(AuctionItem item) {
+        AuctionHouseMain.ei.removeItem(item);
         String sql = "DELETE FROM expireditems WHERE id = ?";
 
         try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             //sta parte qui a caso quando viene fatto return, e rifatto una seconda volta, contiene un item AIR che non dovrebbe esistere
             pstmt.setInt(1, item.getId());
-            AuctionHouseMain.ei.removeItem(item);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,7 +158,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     @Override
     public void expireItem(AuctionItem item) {
         removeItemFromAuction(item);
-        AuctionHouseMain.ah.removeItem(item);
+        //AuctionHouseMain.ah.removeItem(item);
         AuctionHouseMain.ei.addItem(item);
         String sql = "INSERT INTO expireditems(id,playeruuid,owner,nbt,item,count,price) VALUES(?,?,?,?,?,?,?)";
         try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){

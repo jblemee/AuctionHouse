@@ -39,6 +39,7 @@ public class AuctionItem {
         } catch (CommandSyntaxException e) {
             e.printStackTrace();
             itemStack1 = new ItemStack(Items.AIR);
+            System.out.println(itemStack1.getItem().getName().toString());
         }
         this.itemStack = itemStack1;
         this.nbt = nbt;
@@ -73,7 +74,13 @@ public class AuctionItem {
     }
 
     public String getName() {
-        return String.valueOf(Registries.ITEM.getKey(itemStack.getItem()));
+        //System.out.println("\n\n\n"+Registries.ITEM.getKey(itemStack.getItem())+"\n\n\n");
+        //return String.valueOf(Registries.ITEM.getKey(itemStack.getItem()));
+        return Registries.ITEM.getId(itemStack.getItem()).toString();
+    }
+
+    public String getDisplayName(){
+        return itemStack.getRegistryEntry().value().toString();
     }
 
     public double getPrice() {
