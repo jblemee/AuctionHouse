@@ -51,3 +51,6 @@ You can find the config file in `./config/guishop.json`
 ![Screenshot3](https://i.imgur.com/wAru9qk.png)
 
 ![Screenshot4](https://i.imgur.com/PML9LoW.png)
+
+### Credits
+Special thanks to [IAmSneak](https://github.com/IAmSneak/) for the original code base for Fabric Auction House
