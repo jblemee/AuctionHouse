@@ -1,6 +1,6 @@
 # Auction House
 
-A fabric server-side mod to sell items to all players.
+A fabric server-side mod to allow users to sell items to all other players.
 <br>The mod supports [LuckPerms](https://www.curseforge.com/minecraft/mc-mods/luckperms) for permissions.
 <br>
 ## Installation
