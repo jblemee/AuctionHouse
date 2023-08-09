@@ -44,6 +44,12 @@ public class GUIAuctionHouse extends SimpleGui {
     public <T extends GUIAuctionHouse> GUIAuctionHouse(ServerPlayerEntity player) {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.setTitle(Text.literal("Auction House"));
+        try{
+            this.updateDisplay();
+        } catch (FileNotFoundException | UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
     }
 
     protected void nextPage() throws FileNotFoundException, UnsupportedEncodingException {

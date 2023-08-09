@@ -17,7 +17,11 @@ import unsafedodo.fabricauctionhouse.util.Register;
 
 import static com.epherical.octoecon.api.event.EconomyEvents.ECONOMY_CHANGE_EVENT;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class AuctionHouseMain implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("fabric-auctionhouse");
@@ -27,11 +31,22 @@ public class AuctionHouseMain implements ModInitializer {
 	public static ArrayList<String> tableRegistry = new ArrayList<>();
 	public static final EconomyTransactionHandler transactionHandler = new EconomyTransactionHandler();
 
+	public static final Connection connection;
+
+	static {
+		try {
+			connection = DriverManager.getConnection(SQLiteDatabaseManager.url);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static DatabaseManager getDatabaseManager(){
 		return new SQLiteDatabaseManager();
 	}
 
-	public static void onServerStarted(MinecraftServer server){
+
+	public static void onServerStarted(MinecraftServer server) {
 		SQLiteDatabaseManager.createTables(tableRegistry);
 		CommonMethods.reloadHouse();
 		CommonMethods.reloadExpired();
@@ -42,15 +57,31 @@ public class AuctionHouseMain implements ModInitializer {
 		if(!ConfigManager.loadConfig())
 			throw new RuntimeException("Could not load config");
 
+
+
 		LOGGER.info("Fabric AuctionHouse loaded!");
 
 		tableRegistry.add("CREATE TABLE IF NOT EXISTS auctionhouse (id integer PRIMARY KEY AUTOINCREMENT, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL, secondsLeft long NOT NULL);");
 		tableRegistry.add("CREATE TABLE IF NOT EXISTS expireditems (id integer PRIMARY KEY, playeruuid text NOT NULL, owner text NOT NULL, nbt text NOT NULL, item text NOT NULL, count integer NOT NULL, price double NOT NULL);");
+
 		ServerLifecycleEvents.SERVER_STARTED.register(AuctionHouseMain::onServerStarted);
+		ServerLifecycleEvents.SERVER_STOPPING.register(AuctionHouseMain::onServerStopping);
+
 		Register.registerCommands();
 
 		ECONOMY_CHANGE_EVENT.register(currentEconomy -> {
 			transactionHandler.onEconomyChanged(currentEconomy);
 		});
 	}
+
+	private static void onServerStopping(MinecraftServer server) {
+		try {
+			connection.close();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+
+	}
+
+
 }

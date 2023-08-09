@@ -4,24 +4,17 @@ import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
 import unsafedodo.fabricauctionhouse.util.CommonMethods;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+
+import static unsafedodo.fabricauctionhouse.AuctionHouseMain.connection;
 
 public class SQLiteDatabaseManager implements DatabaseManager{
     public static String url = "jdbc:sqlite:auctionhouse.db";
 
-    private Connection connect(){
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(url);
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return connection;
-    }
-
     public static void createTables(ArrayList<String> tableRegistry){
-        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement()){
+        try (Statement stmt = connection.createStatement()){
             for(String sql: tableRegistry){
                 stmt.execute(sql);
             }
@@ -33,7 +26,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     public static ArrayList<AuctionItem> getItemList(){
         String sql = "SELECT * FROM auctionhouse";
         ArrayList<AuctionItem> list = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()){
                 list.add(new AuctionItem(rs.getInt("id"), rs.getString("playeruuid"), rs.getString("owner"), rs.getString("nbt"), rs.getString("item"), rs.getInt("count"), rs.getDouble("price"), rs.getLong("secondsLeft")));
             }
@@ -48,7 +41,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
         String sql = "SELECT * FROM expireditems";
         ArrayList<AuctionItem> list = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(new AuctionItem(rs.getInt("id"), rs.getString("playeruuid"), rs.getString("owner"), rs.getString("nbt"), rs.getString("item"), rs.getInt("count"), rs.getDouble("price"), 0));
             }
@@ -63,7 +56,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     public int addItemToAuction(String playeruuid, String owner, String nbt, String item, int count, double price, long secondsLeft) {
         String sql = "INSERT INTO auctionhouse(playeruuid,owner,nbt,item,count,price,secondsLeft) VALUES(?,?,?,?,?,?,?)";
 
-        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)){
             pstmt.setString(1, playeruuid);
             pstmt.setString(2, owner);
             pstmt.setString(3, nbt);
@@ -83,7 +76,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     @Override
     public int getMostRecentId() {
         String sql = "SELECT id FROM auctionhouse ORDER BY id DESC";
-        try (Connection conn = this.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
             return rs.getInt("id");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,7 +87,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     @Override
     public int playerItemCount(String playeruuid, String table) {
         String sql = "SELECT Count(*) FROM " + table + " WHERE playeruuid = '" + playeruuid + "'";
-        try (Connection conn = this.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
             rs.next();
             return rs.getInt(1);
         } catch (SQLException e) {
@@ -106,7 +99,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     @Override
     public boolean isItemForAuction(int id) {
         String sql = "SELECT Count(id) FROM auctionhouse WHERE id = " + id;
-        try (Connection conn = this.connect(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)){
             rs.next();
             return rs.getInt(1) > 0;
         } catch (SQLException e) {
@@ -119,7 +112,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     public void updateTime(int id, long seconds) {
         String sql = "UPDATE auctionhouse SET secondsLeft = ? WHERE id = ?";
 
-        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setDouble(1, seconds);
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
@@ -132,7 +125,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     public void removeItemFromAuction(AuctionItem item) {
         String sql = "DELETE FROM auctionhouse WHERE id = ?";
 
-        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)){
             pstmt.setInt(1, item.getId());
             pstmt.executeUpdate();
             AuctionHouseMain.ah.removeItem(item);
@@ -146,8 +139,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
         AuctionHouseMain.ei.removeItem(item);
         String sql = "DELETE FROM expireditems WHERE id = ?";
 
-        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
-            //sta parte qui a caso quando viene fatto return, e rifatto una seconda volta, contiene un item AIR che non dovrebbe esistere
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)){
             pstmt.setInt(1, item.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -158,10 +150,9 @@ public class SQLiteDatabaseManager implements DatabaseManager{
     @Override
     public void expireItem(AuctionItem item) {
         removeItemFromAuction(item);
-        //AuctionHouseMain.ah.removeItem(item);
         AuctionHouseMain.ei.addItem(item);
         String sql = "INSERT INTO expireditems(id,playeruuid,owner,nbt,item,count,price) VALUES(?,?,?,?,?,?,?)";
-        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)){
             pstmt.setInt(1, item.getId());
             pstmt.setString(2, item.getUuid());
             pstmt.setString(3, item.getOwner());

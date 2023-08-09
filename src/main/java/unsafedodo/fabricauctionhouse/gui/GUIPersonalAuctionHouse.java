@@ -44,6 +44,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.setTitle(Text.literal("My items"));
         ah = AuctionHouseMain.ah.getPlayerAuctionHouse(player.getUuidAsString());
+        this.updateDisplay();
     }
 
     protected void nextPage() {

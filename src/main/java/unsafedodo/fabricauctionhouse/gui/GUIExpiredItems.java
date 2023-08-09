@@ -43,6 +43,7 @@ public class GUIExpiredItems extends SimpleGui {
         super(ScreenHandlerType.GENERIC_9X6, player, false);
         this.setTitle(Text.literal("Expired Items"));
         expired = AuctionHouseMain.ei.getPlayerExpiredItems(player.getUuidAsString());
+        this.updateDisplay();
     }
 
     protected void nextPage() {
