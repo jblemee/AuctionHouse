@@ -1,13 +1,11 @@
 package unsafedodo.fabricauctionhouse.auction;
 
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
-import unsafedodo.fabricauctionhouse.config.ConfigData;
 import unsafedodo.fabricauctionhouse.config.ConfigManager;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AuctionHouse {
     public ArrayList<AuctionItem> items;

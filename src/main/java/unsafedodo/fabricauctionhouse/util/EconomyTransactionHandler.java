@@ -3,13 +3,8 @@ package unsafedodo.fabricauctionhouse.util;
 import com.epherical.octoecon.api.Economy;
 import com.epherical.octoecon.api.event.EconomyEvents;
 import com.epherical.octoecon.api.user.UniqueUser;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.PlayerManager;
-import net.minecraft.server.network.ServerPlayerEntity;
-import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 
 import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class EconomyTransactionHandler implements EconomyEvents.EconomyChange {
 

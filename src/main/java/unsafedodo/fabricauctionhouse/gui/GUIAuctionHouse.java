@@ -2,16 +2,12 @@ package unsafedodo.fabricauctionhouse.gui;
 
 import eu.pb4.sgui.api.gui.SimpleGui;
 import eu.pb4.sgui.api.elements.*;
-import eu.pb4.sgui.api.gui.*;
-import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.network.*;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -19,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
 import unsafedodo.fabricauctionhouse.config.ConfigManager;
-import unsafedodo.fabricauctionhouse.util.EconomyTransactionHandler;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;

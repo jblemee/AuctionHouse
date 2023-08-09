@@ -11,7 +11,6 @@ import net.minecraft.util.Formatting;
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionHouse;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
-import unsafedodo.fabricauctionhouse.auction.ExpiredItems;
 
 public class AuctionHouseCancelCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment){

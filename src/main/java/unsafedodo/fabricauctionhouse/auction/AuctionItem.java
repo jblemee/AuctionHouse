@@ -6,7 +6,6 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class AuctionItem {

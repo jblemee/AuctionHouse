@@ -14,7 +14,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;

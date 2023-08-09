@@ -21,7 +21,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 public class AuctionHouseMain implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("fabric-auctionhouse");

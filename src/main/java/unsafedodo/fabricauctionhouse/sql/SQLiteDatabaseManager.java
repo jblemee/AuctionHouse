@@ -4,7 +4,6 @@ import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
 import unsafedodo.fabricauctionhouse.util.CommonMethods;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
