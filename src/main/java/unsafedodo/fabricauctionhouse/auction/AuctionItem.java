@@ -33,6 +33,7 @@ public class AuctionItem {
         this.id = id;
         try {
             itemStack1 = new ItemStack(Registries.ITEM.get(new Identifier(item)), count);
+            System.out.println(itemStack1.getName());
             NbtCompound tnbt = StringNbtReader.parse(nbt);
             tnbt.remove("palette");
             itemStack1.setNbt(tnbt);

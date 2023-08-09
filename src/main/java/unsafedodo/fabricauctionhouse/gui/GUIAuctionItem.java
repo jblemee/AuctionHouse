@@ -154,12 +154,15 @@ public class GUIAuctionItem extends SimpleGui {
                 if(EconomyTransactionHandler.getMoneyFromPurchase(item.getUuid(), item.getPrice())){
                     EconomyTransactionHandler.purchaseItem(player.getUuidAsString(), item.getPrice());
                     AuctionHouseMain.getDatabaseManager().removeItemFromAuction(item);
-                    player.getInventory().offerOrDrop(item.getItemStack());
                     player.sendMessage(Text.literal("You have purchased ").formatted(Formatting.GREEN)
+                            .append(Text.literal(String.valueOf(item.getItemStack().getCount())).formatted(Formatting.GREEN))
+                            .append(Text.literal(" ").formatted(Formatting.GREEN))
                             .append(Text.literal(item.getDisplayName()).formatted(Formatting.DARK_PURPLE))
-                            .append(Text.literal(" from").formatted(Formatting.GREEN))
+                            .append(Text.literal(" from ").formatted(Formatting.GREEN))
                             .append(Text.literal(item.getOwner()).formatted(Formatting.YELLOW))
                             .append(Text.literal(" for "+item.getPrice()+" $").formatted(Formatting.GREEN)));
+                    player.getInventory().offerOrDrop(item.getItemStack());
+
                 }
             } else
                 player.sendMessage(Text.literal("You don't have any empty slot in your inventory").formatted(Formatting.RED));
