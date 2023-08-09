@@ -7,20 +7,18 @@ import eu.pb4.sgui.api.elements.GuiElementInterface;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
 import unsafedodo.fabricauctionhouse.util.EconomyTransactionHandler;
-import unsafedodo.fabricauctionhouse.util.Register;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
@@ -146,7 +144,6 @@ public class GUIAuctionItem extends SimpleGui {
     }
 
     private void remove(){
-        System.out.println("EXPIRE REMOVE");
         AuctionHouseMain.getDatabaseManager().expireItem(item);
         close();
     }
@@ -158,9 +155,14 @@ public class GUIAuctionItem extends SimpleGui {
                     EconomyTransactionHandler.purchaseItem(player.getUuidAsString(), item.getPrice());
                     AuctionHouseMain.getDatabaseManager().removeItemFromAuction(item);
                     player.getInventory().offerOrDrop(item.getItemStack());
-                    player.sendMessage(Text.literal("You have purchased "+ item.getDisplayName() +" from " + item.getOwner() +" for "+item.getPrice()+" $").formatted(Formatting.GREEN));
+                    player.sendMessage(Text.literal("You have purchased ").formatted(Formatting.GREEN)
+                            .append(Text.literal(item.getDisplayName()).formatted(Formatting.DARK_PURPLE))
+                            .append(Text.literal(" from").formatted(Formatting.GREEN))
+                            .append(Text.literal(item.getOwner()).formatted(Formatting.YELLOW))
+                            .append(Text.literal(" for "+item.getPrice()+" $").formatted(Formatting.GREEN)));
                 }
-            }
+            } else
+                player.sendMessage(Text.literal("You don't have any empty slot in your inventory").formatted(Formatting.RED));
         } else
             player.sendMessage(Text.literal("That item was already bought").formatted(Formatting.RED));
 

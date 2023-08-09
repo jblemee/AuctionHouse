@@ -128,9 +128,7 @@ public class GUIAuctionHouse extends SimpleGui {
 
     protected DisplayElement getElement(int id) {
         final int id1 = page * PAGE_SIZE + id;
-        //System.out.println(String.format("\n\nId: %d\nId1: %d\n\n", id, id1));
         if (id1 >= AuctionHouseMain.ah.getSize()) {
-            //System.out.println("Sono entrato nel getsize minore di id1");
             return null;
         }
         AuctionItem ai = AuctionHouseMain.ah.getItem(id1);

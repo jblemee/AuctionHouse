@@ -6,6 +6,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class AuctionItem {
@@ -32,14 +33,12 @@ public class AuctionItem {
         this.id = id;
         try {
             itemStack1 = new ItemStack(Registries.ITEM.get(new Identifier(item)), count);
-            System.out.println(itemStack1.getItem().getName().toString());
             NbtCompound tnbt = StringNbtReader.parse(nbt);
             tnbt.remove("palette");
             itemStack1.setNbt(tnbt);
         } catch (CommandSyntaxException e) {
             e.printStackTrace();
             itemStack1 = new ItemStack(Items.AIR);
-            System.out.println(itemStack1.getItem().getName().toString());
         }
         this.itemStack = itemStack1;
         this.nbt = nbt;
@@ -74,13 +73,11 @@ public class AuctionItem {
     }
 
     public String getName() {
-        //System.out.println("\n\n\n"+Registries.ITEM.getKey(itemStack.getItem())+"\n\n\n");
-        //return String.valueOf(Registries.ITEM.getKey(itemStack.getItem()));
         return Registries.ITEM.getId(itemStack.getItem()).toString();
     }
 
     public String getDisplayName(){
-        return itemStack.getRegistryEntry().value().toString();
+        return (this.itemStack.getName().getString());
     }
 
     public double getPrice() {

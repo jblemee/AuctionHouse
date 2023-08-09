@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -50,12 +51,12 @@ public class AuctionHouseSellCommand {
 
                 if(AuctionHouseMain.ah.canAddItems()){
                     double price = DoubleArgumentType.getDouble(context, "price");
-                    NbtCompound nbtCompound = player.getMainHandStack().getOrCreateNbt();
                     ItemStack itemInHand = player.getMainHandStack();
+                    NbtCompound nbtCompound = player.getMainHandStack().getOrCreateNbt();
                     String item = Registries.ITEM.getId(itemInHand.getItem()).toString();
                     ConfigData configData = ConfigManager.getConfigData(ConfigManager.configFile);
-                    AuctionItem newItem = new AuctionItem(AuctionHouseMain.getDatabaseManager().addItemToAuction(playerUuid, player.getName().getString(), nbtCompound.toString(), item, itemInHand.getCount(), price, configData.getAuctionSecondsDuration()), playerUuid, player.getName().getString(), itemInHand, price, configData.getAuctionSecondsDuration());
-                    AuctionHouseMain.ah.addItem(newItem);
+                    //AuctionItem newItem = new AuctionItem(AuctionHouseMain.getDatabaseManager().addItemToAuction(playerUuid, player.getName().getString(), nbtCompound.toString(), item, itemInHand.getCount(), price, configData.getAuctionSecondsDuration()), playerUuid, player.getName().getString(), itemInHand, price, configData.getAuctionSecondsDuration());
+                    AuctionHouseMain.getDatabaseManager().addItemToAuction(playerUuid, player.getName().getString(), nbtCompound.toString(), item, itemInHand.getCount(), price, configData.getAuctionSecondsDuration());
                     player.getInventory().removeStack(player.getInventory().getSlotWithStack(itemInHand), itemInHand.getCount());
                     context.getSource().sendFeedback(()-> Text.literal(String.format("Item successfully added to auction house for %.2f $", price)).formatted(Formatting.GREEN), false);
                     return 0;

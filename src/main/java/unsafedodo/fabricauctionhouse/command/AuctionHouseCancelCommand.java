@@ -23,13 +23,9 @@ public class AuctionHouseCancelCommand {
 
     private static int run(CommandContext<ServerCommandSource> context) {
         AuctionHouse personalHouse = AuctionHouseMain.ah.getPlayerAuctionHouse(context.getSource().getPlayer().getUuidAsString());
-        System.out.println("PERSONAL SIZE: "+personalHouse.items.size());
-        for(AuctionItem item: personalHouse.items){
-            System.out.println(item.getName());
-        }
+
         if(personalHouse.getSize() > 0){
             for(AuctionItem item: personalHouse.items){
-                System.out.println("EXPIRE CANCEL");
                 AuctionHouseMain.getDatabaseManager().expireItem(item);
             }
             context.getSource().sendFeedback(()-> Text.literal("All your items on auction have been cancelled").formatted(Formatting.GREEN), false);

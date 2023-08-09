@@ -33,11 +33,9 @@ public class AuctionHouseReturnCommand {
                 if(context.getSource().getPlayer().getInventory().getStack(i).isEmpty())
                     emptySlots.add(i);
             }
-            System.out.println("Empty slots size: "+emptySlots.size()+"\n\nPersonal Expired size: "+personalExpired.items.size());
             if(emptySlots.size() >= personalExpired.items.size()){
                 Iterator<Integer> iterator = emptySlots.listIterator();
                 for(AuctionItem item: personalExpired.items){
-                    System.out.println(item.getName());
                     AuctionHouseMain.getDatabaseManager().removeItemFromExpired(item);
                     context.getSource().getPlayer().getInventory().setStack(iterator.next(), item.getItemStack());
                 }
@@ -45,8 +43,6 @@ public class AuctionHouseReturnCommand {
                 return 0;
 
             } else {
-                for(AuctionItem item: personalExpired.items)
-                    System.out.println(item.getName());
                 context.getSource().sendFeedback(()-> Text.literal("You don't have enough space in your inventory").formatted(Formatting.RED), false);
                 return -1;
             }

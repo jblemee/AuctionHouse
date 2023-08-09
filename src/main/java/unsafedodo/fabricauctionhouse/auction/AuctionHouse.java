@@ -39,7 +39,6 @@ public class AuctionHouse {
             int i = 0;
             while (i < items.size()) {
                 if (items.get(i).tickDeath()) {
-                    System.out.println("EXPIRE TICK");
                     AuctionHouseMain.getDatabaseManager().expireItem(items.get(i));
                 } else {
                     i++;

@@ -13,5 +13,6 @@ public class Register {
         CommandRegistrationCallback.EVENT.register(AuctionHouseReloadCommand::register);
         CommandRegistrationCallback.EVENT.register(AuctionHouseSellCommand::register);
         CommandRegistrationCallback.EVENT.register(AuctionHouseSellingCommand::register);
+        CommandRegistrationCallback.EVENT.register(ShowPersonalCommand::register);
     }
 }
