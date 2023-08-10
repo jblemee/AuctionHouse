@@ -42,6 +42,8 @@ You can find the config file in `./config/guishop.json`
 ## Supported Economies:
 - [EightsEconomyP](https://legacy.curseforge.com/minecraft/mc-mods/eightseconomyp)
 
+### Discord
+Join my [discord server](https://discord.gg/tExFemXyJS) if you need support for one of my mods!
 
 ## Showcase
 ![Screenshot1](https://i.imgur.com/kM3qF1N.png)
@@ -51,9 +53,6 @@ You can find the config file in `./config/guishop.json`
 ![Screenshot3](https://i.imgur.com/wAru9qk.png)
 
 ![Screenshot4](https://i.imgur.com/PML9LoW.png)
-
-### Discord
-Join my [discord server](https://discord.gg/tExFemXyJS) if you need support for one of my mods!
 
 ### Credits
 Special thanks to [IAmSneak](https://github.com/IAmSneak/) for the original code base for Fabric Auction House
