@@ -52,5 +52,8 @@ You can find the config file in `./config/guishop.json`
 
 ![Screenshot4](https://i.imgur.com/PML9LoW.png)
 
+### Discord
+Join my [discord server](https://discord.gg/tExFemXyJS) if you need support for one of my mods!
+
 ### Credits
 Special thanks to [IAmSneak](https://github.com/IAmSneak/) for the original code base for Fabric Auction House
