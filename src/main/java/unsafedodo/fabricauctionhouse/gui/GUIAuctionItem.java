@@ -17,10 +17,12 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
-import unsafedodo.fabricauctionhouse.util.EconomyTransactionHandler;
+import unsafedodo.fabricauctionhouse.util.EconomyHandler;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class GUIAuctionItem extends SimpleGui {
     private int ticker = 0;
@@ -30,7 +32,7 @@ public class GUIAuctionItem extends SimpleGui {
         this.item = item;
     }
 
-    void updateDisplay(){
+    void updateDisplay() throws ExecutionException, InterruptedException {
         for (int i = 0; i < 9; i++) {
             var navElement = this.getNavElement(i);
 
@@ -45,7 +47,7 @@ public class GUIAuctionItem extends SimpleGui {
         }
     }
 
-    protected DisplayElement getNavElement(int id){
+    protected DisplayElement getNavElement(int id) throws ExecutionException, InterruptedException {
         return switch (id){
             case 0 -> DisplayElement.of(GuiElementBuilder.from(Items.CLOCK.getDefaultStack())
                             .setName(Text.literal("Time left: "+item.getTimeLeft()).formatted(Formatting.BLUE))
@@ -81,7 +83,11 @@ public class GUIAuctionItem extends SimpleGui {
         ticker++;
         if(ticker >= 5){
             ticker = 0;
-            updateDisplay();
+            try {
+                updateDisplay();
+            } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         super.onTick();
@@ -91,8 +97,8 @@ public class GUIAuctionItem extends SimpleGui {
         player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.MASTER, 1, 1);
     }
 
-    private DisplayElement confirm(){
-        if(item.getPrice() < EconomyTransactionHandler.getBalanceFromUuid(item.getUuid())){
+    private DisplayElement confirm() throws ExecutionException, InterruptedException {
+        if(item.getPrice() < EconomyHandler.getBalance(EconomyHandler.getAccount(player.getUuid()))){
             return DisplayElement.of(GuiElementBuilder.from(Items.GREEN_STAINED_GLASS_PANE.getDefaultStack())
                             .setName(Text.literal("Confirm").formatted(Formatting.GREEN))
                             .hideFlags()
@@ -150,8 +156,7 @@ public class GUIAuctionItem extends SimpleGui {
     private void buy(){
         if(AuctionHouseMain.getDatabaseManager().isItemForAuction(item.getId())){
             if(player.getInventory().getEmptySlot() != -1){
-                if(EconomyTransactionHandler.getMoneyFromPurchase(item.getUuid(), item.getPrice())){
-                    EconomyTransactionHandler.purchaseItem(player.getUuidAsString(), item.getPrice());
+                if(EconomyHandler.transfer(EconomyHandler.getAccount(player.getUuid()), EconomyHandler.getAccount(UUID.fromString(item.getUuid())), item.getPrice())){
                     AuctionHouseMain.getDatabaseManager().removeItemFromAuction(item);
                     player.sendMessage(Text.literal("You have purchased ").formatted(Formatting.GREEN)
                             .append(Text.literal(String.valueOf(item.getItemStack().getCount())).formatted(Formatting.GREEN))

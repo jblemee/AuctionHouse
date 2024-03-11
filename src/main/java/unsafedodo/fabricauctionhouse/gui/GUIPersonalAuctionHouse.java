@@ -22,6 +22,7 @@ import unsafedodo.fabricauctionhouse.config.ConfigManager;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutionException;
 
 public class GUIPersonalAuctionHouse extends SimpleGui {
 
@@ -160,7 +161,8 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
                             playClickSound(this.player);
                             try {
                                 openItemGui(ah.getItem(id1));
-                            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                            } catch (FileNotFoundException | UnsupportedEncodingException | ExecutionException |
+                                     InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
                         }));
@@ -178,7 +180,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
         super.onTick();
     }
 
-    private void openItemGui(AuctionItem item) throws FileNotFoundException, UnsupportedEncodingException {
+    private void openItemGui(AuctionItem item) throws FileNotFoundException, UnsupportedEncodingException, ExecutionException, InterruptedException {
         this.close();
         GUIAuctionItem gui = new GUIAuctionItem(player, item);
         gui.updateDisplay();

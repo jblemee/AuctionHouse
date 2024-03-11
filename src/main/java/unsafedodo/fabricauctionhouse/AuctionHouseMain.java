@@ -12,10 +12,8 @@ import unsafedodo.fabricauctionhouse.config.ConfigManager;
 import unsafedodo.fabricauctionhouse.sql.DatabaseManager;
 import unsafedodo.fabricauctionhouse.sql.SQLiteDatabaseManager;
 import unsafedodo.fabricauctionhouse.util.CommonMethods;
-import unsafedodo.fabricauctionhouse.util.EconomyTransactionHandler;
 import unsafedodo.fabricauctionhouse.util.Register;
 
-import static com.epherical.octoecon.api.event.EconomyEvents.ECONOMY_CHANGE_EVENT;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,14 +26,14 @@ public class AuctionHouseMain implements ModInitializer {
 	public static AuctionHouse ah;
 	public static ExpiredItems ei;
 	public static ArrayList<String> tableRegistry = new ArrayList<>();
-	public static final EconomyTransactionHandler transactionHandler = new EconomyTransactionHandler();
 
 	public static final Connection connection;
 
 	static {
 		try {
+			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection(SQLiteDatabaseManager.url);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -67,10 +65,6 @@ public class AuctionHouseMain implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STOPPING.register(AuctionHouseMain::onServerStopping);
 
 		Register.registerCommands();
-
-		ECONOMY_CHANGE_EVENT.register(currentEconomy -> {
-			transactionHandler.onEconomyChanged(currentEconomy);
-		});
 	}
 
 	private static void onServerStopping(MinecraftServer server) {

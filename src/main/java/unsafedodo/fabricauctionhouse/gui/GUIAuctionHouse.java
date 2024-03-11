@@ -18,6 +18,7 @@ import unsafedodo.fabricauctionhouse.config.ConfigManager;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutionException;
 
 
 public class GUIAuctionHouse extends SimpleGui {
@@ -139,7 +140,11 @@ public class GUIAuctionHouse extends SimpleGui {
                         .addLoreLine(Text.literal(String.format("%.2f $", ai.getPrice())).formatted(Formatting.DARK_PURPLE))
                         .setCallback((index, type1, action) -> {
                             playClickSound(this.player);
-                            openItemGui(AuctionHouseMain.ah.getItem(id1));
+                            try {
+                                openItemGui(AuctionHouseMain.ah.getItem(id1));
+                            } catch (ExecutionException | InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }));
     }
 
@@ -158,7 +163,7 @@ public class GUIAuctionHouse extends SimpleGui {
         super.onTick();
     }
 
-    protected void openItemGui(AuctionItem item) {
+    protected void openItemGui(AuctionItem item) throws ExecutionException, InterruptedException {
         this.close();
         GUIAuctionItem gui = new GUIAuctionItem(player, item);
         gui.updateDisplay();
