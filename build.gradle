@@ -28,6 +28,10 @@ repositories {
 	}
 
 	mavenCentral()
+
+	flatDir {
+		dir 'libs'
+	}
 }
 
 loom {
@@ -54,6 +58,7 @@ dependencies {
 	include(modImplementation('me.lucko:fabric-permissions-api:0.2-SNAPSHOT'))
 
 	implementation("net.impactdev.impactor.api:economy:5.3.2")
+	implementation("co.lemee.realeconomy:realeconomy:0.1.1+1.21.4-dev")
 
 	implementation include("org.xerial:sqlite-jdbc:3.40.0.0")
 

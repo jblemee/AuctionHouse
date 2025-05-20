@@ -2,7 +2,7 @@ package co.lemee.auctionhouse.gui;
 
 import co.lemee.auctionhouse.AuctionHouseMod;
 import co.lemee.auctionhouse.auction.AuctionItem;
-import co.lemee.auctionhouse.util.EconomyHandler;
+import co.lemee.auctionhouse.economy.EconomyHandler;
 import eu.pb4.sgui.api.elements.GuiElement;
 import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.elements.GuiElementBuilderInterface;
@@ -101,7 +101,7 @@ public class GUIAuctionItem extends SimpleGui {
     }
 
     private DisplayElement confirm() throws ExecutionException, InterruptedException {
-        if (item.getPrice() < EconomyHandler.getBalance(EconomyHandler.getAccount(player.getUuid()))) {
+        if (item.getPrice() < EconomyHandler.getInstance().getBalance(player.getUuid())) {
             return DisplayElement.of(GuiElementBuilder.from(Items.GREEN_STAINED_GLASS_PANE.getDefaultStack())
                     .setName(Text.literal("Confirm").formatted(Formatting.GREEN))
                     .hideDefaultTooltip()
@@ -159,7 +159,7 @@ public class GUIAuctionItem extends SimpleGui {
     private void buy() {
         if (AuctionHouseMod.getDatabaseManager().isItemForAuction(item.getId())) {
             if (player.getInventory().getEmptySlot() != -1) {
-                if (EconomyHandler.transfer(EconomyHandler.getAccount(player.getUuid()), EconomyHandler.getAccount(UUID.fromString(item.getUuid())), item.getPrice())) {
+                if (EconomyHandler.getInstance().transfer(player.getUuid(), UUID.fromString(item.getUuid()), item.getPrice())) {
                     AuctionHouseMod.getDatabaseManager().removeItemFromAuction(item);
                     player.sendMessage(Text.literal("You have purchased ").formatted(Formatting.GREEN)
                             .append(Text.literal(String.valueOf(item.getItemStack().getCount())).formatted(Formatting.GREEN))

@@ -49,7 +49,6 @@ public class AuctionHouseMod implements ModInitializer {
         return new SQLiteDatabaseManager();
     }
 
-
     public static void onServerStarted(MinecraftServer server) {
         SQLiteDatabaseManager.createTables(tableRegistry);
         CommonMethods.reloadHouse();
@@ -80,6 +79,4 @@ public class AuctionHouseMod implements ModInitializer {
 
         Register.registerCommands();
     }
-
-
 }

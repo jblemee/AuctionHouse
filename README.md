@@ -9,7 +9,7 @@ a server-side auction mod that is compatible with multiple economy mod and loade
 
 TodoList: 
  - [ ] NeoForge Support
- - [ ] [RealEconomy](https://modrinth.com/mod/realeconomy) Compatibility 
+ - [ ] Multi-currency support
 
 
 ## Installation
@@ -36,7 +36,7 @@ All commands can be used by default users (permission level 0), except for the `
 
 
 ## Configuration
-You can find the config file in `./config/guishop.json`
+You can find the config file in `./config/auctionhouse.json`
 
 
 ### JSON example
@@ -51,7 +51,7 @@ You can find the config file in `./config/guishop.json`
 ## Supported Economies:
 
 - [Impactor](https://modrinth.com/mod/impactor) or any economy mod compatible with Impactor API
-- 
+- [RealEconomy](https://modrinth.com/mod/realeconomy) Compatibility
 
 ### Discord
 Join my [discord server](https://discord.gg/ZZmqwnQt3J) if you need support for one of my mods!
