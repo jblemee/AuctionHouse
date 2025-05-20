@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "co.lemee.auctionhouse.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+      "co.lemee.auctionhouse.mixin.MinecraftServerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

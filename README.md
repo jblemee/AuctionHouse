@@ -1,12 +1,21 @@
 # Auction House
 
-A fabric server-side mod to allow users to sell items to all other players.
-<br>The mod supports [LuckPerms](https://www.curseforge.com/minecraft/mc-mods/luckperms) for permissions.
-<br>
+A server-side mod (or plugin) that allows users to sell items to all other players. 
+The mod supports [LuckPerms](https://modrinth.com/plugin/luckperms) for permissions.
+
+
+This is a fork of [FabricAuctionHouse](https://github.com/UnsafeDodo/fabric-auctionhouse) that aims to maintain 
+a server-side auction mod that is compatible with multiple economy mod and loader.
+
+TodoList: 
+ - [ ] NeoForge Support
+ - [ ] [RealEconomy](https://modrinth.com/mod/realeconomy) Compatibility 
+
+
 ## Installation
 Put the .jar file in the "mods" folder
 
-**(Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and [a supported Economy](#supported-economies))**
+**(Requires a [supported Economy mod](#supported-economies))**
 <br>
 
 ## Commands and permissions
@@ -40,10 +49,12 @@ You can find the config file in `./config/guishop.json`
 ```
 
 ## Supported Economies:
-- [EightsEconomyP](https://legacy.curseforge.com/minecraft/mc-mods/eightseconomyp)
+
+- [Impactor](https://modrinth.com/mod/impactor) or any economy mod compatible with Impactor API
+- 
 
 ### Discord
-Join my [discord server](https://discord.gg/tExFemXyJS) if you need support for one of my mods!
+Join my [discord server](https://discord.gg/ZZmqwnQt3J) if you need support for one of my mods!
 
 ## Showcase
 ![Screenshot1](https://i.imgur.com/kM3qF1N.png)
@@ -55,4 +66,5 @@ Join my [discord server](https://discord.gg/tExFemXyJS) if you need support for 
 ![Screenshot4](https://i.imgur.com/PML9LoW.png)
 
 ### Credits
-Special thanks to [IAmSneak](https://github.com/IAmSneak/) for the original code base for Fabric Auction House
+
+Special thanks to [IAmSneak](https://github.com/IAmSneak/) and [UnsafeDodo](https://github.com/UnsafeDodo/) for the original code base
