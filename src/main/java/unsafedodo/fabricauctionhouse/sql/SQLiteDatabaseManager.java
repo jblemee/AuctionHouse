@@ -4,9 +4,13 @@ import unsafedodo.fabricauctionhouse.AuctionHouseMain;
 import unsafedodo.fabricauctionhouse.auction.AuctionItem;
 import unsafedodo.fabricauctionhouse.util.CommonMethods;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
+import static unsafedodo.fabricauctionhouse.AuctionHouseMain.LOGGER;
 import static unsafedodo.fabricauctionhouse.AuctionHouseMain.connection;
 
 public class SQLiteDatabaseManager implements DatabaseManager{
@@ -45,7 +49,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
                 list.add(new AuctionItem(rs.getInt("id"), rs.getString("playeruuid"), rs.getString("owner"), rs.getString("nbt"), rs.getString("item"), rs.getInt("count"), rs.getDouble("price"), 0));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to get item id", e);
         }
 
         return list;
@@ -67,7 +71,7 @@ public class SQLiteDatabaseManager implements DatabaseManager{
             CommonMethods.reloadHouse();
             return getMostRecentId();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to add item to auction", e);
         }
         return -1;
     }

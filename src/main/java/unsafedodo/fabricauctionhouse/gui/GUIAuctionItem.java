@@ -24,6 +24,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import static unsafedodo.fabricauctionhouse.AuctionHouseMain.SKULL_OWNER;
+
 public class GUIAuctionItem extends SimpleGui {
     private int ticker = 0;
     private final AuctionItem item;
@@ -51,10 +53,10 @@ public class GUIAuctionItem extends SimpleGui {
         return switch (id){
             case 0 -> DisplayElement.of(GuiElementBuilder.from(Items.CLOCK.getDefaultStack())
                             .setName(Text.literal("Time left: "+item.getTimeLeft()).formatted(Formatting.BLUE))
-                            .hideFlags());
+                            .hideDefaultTooltip());
             case 1 -> DisplayElement.of(GuiElementBuilder.from(Items.PAPER.getDefaultStack())
                             .setName(Text.literal(String.format("Price: %.2f $", item.getPrice())).formatted(Formatting.BLUE))
-                            .hideFlags());
+                            .hideDefaultTooltip());
 
             case 2 -> skull();
 
@@ -64,7 +66,7 @@ public class GUIAuctionItem extends SimpleGui {
 
             case 7 -> DisplayElement.of(GuiElementBuilder.from(Items.RED_STAINED_GLASS_PANE.getDefaultStack())
                             .setName(Text.literal("Cancel").formatted(Formatting.RED))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback(((index, type1, action) -> {
                                 playClickSound(this.player);
                                 this.close();
@@ -74,7 +76,7 @@ public class GUIAuctionItem extends SimpleGui {
 
             default -> DisplayElement.of(GuiElementBuilder.from(Items.LIGHT_GRAY_STAINED_GLASS_PANE.getDefaultStack())
                             .setName(Text.empty())
-                            .hideFlags());
+                            .hideDefaultTooltip());
         };
     }
 
@@ -94,14 +96,14 @@ public class GUIAuctionItem extends SimpleGui {
     }
 
     public static void playClickSound(ServerPlayerEntity player){
-        player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.MASTER, 1, 1);
+        player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.MASTER, 1, 1);
     }
 
     private DisplayElement confirm() throws ExecutionException, InterruptedException {
         if(item.getPrice() < EconomyHandler.getBalance(EconomyHandler.getAccount(player.getUuid()))){
             return DisplayElement.of(GuiElementBuilder.from(Items.GREEN_STAINED_GLASS_PANE.getDefaultStack())
                             .setName(Text.literal("Confirm").formatted(Formatting.GREEN))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback(((index, type1, action) -> {
                                 playClickSound(this.player);
                                 this.buy();
@@ -109,7 +111,7 @@ public class GUIAuctionItem extends SimpleGui {
         } else {
             return DisplayElement.of(GuiElementBuilder.from(Items.GRAY_STAINED_GLASS_PANE.getDefaultStack())
                             .setName(Text.literal("Confirm").formatted(Formatting.DARK_GRAY))
-                            .hideFlags());
+                            .hideDefaultTooltip());
         }
     }
 
@@ -117,7 +119,7 @@ public class GUIAuctionItem extends SimpleGui {
         if(player.hasPermissionLevel(4) || player.getUuidAsString().equals(item.getUuid())){
             return DisplayElement.of(GuiElementBuilder.from(Items.HOPPER.getDefaultStack())
                             .setName(Text.literal("Remove from auction").formatted(Formatting.RED))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback(((index, type1, action) -> {
                                 playClickSound(this.player);
                                 this.remove();
@@ -129,10 +131,10 @@ public class GUIAuctionItem extends SimpleGui {
 
     private DisplayElement skull(){
         ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
-        stack.getOrCreateNbt().putString("SkullOwner", item.getOwner());
+        stack.set(SKULL_OWNER, item.getOwner());
         return DisplayElement.of(GuiElementBuilder.from(stack)
                         .setName(Text.literal("Owner: "+ item.getOwner()).formatted(Formatting.BLUE))
-                        .hideFlags());
+                        .hideDefaultTooltip());
     }
 
     @Override
@@ -178,7 +180,7 @@ public class GUIAuctionItem extends SimpleGui {
 
     public record DisplayElement(@Nullable GuiElementInterface element, @Nullable Slot slot){
         private static final DisplayElement EMPTY = DisplayElement.of(new GuiElement(ItemStack.EMPTY, GuiElementInterface.EMPTY_CALLBACK));
-        private static final DisplayElement FILLER = DisplayElement.of(new GuiElementBuilder(Items.LIGHT_GRAY_STAINED_GLASS_PANE).setName(Text.literal("")).hideFlags());
+        private static final DisplayElement FILLER = DisplayElement.of(new GuiElementBuilder(Items.LIGHT_GRAY_STAINED_GLASS_PANE).setName(Text.literal("")).hideDefaultTooltip());
 
         public static DisplayElement of(GuiElementInterface element){
             return new DisplayElement(element, null);

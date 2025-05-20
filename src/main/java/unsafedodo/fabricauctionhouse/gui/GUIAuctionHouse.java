@@ -1,7 +1,10 @@
 package unsafedodo.fabricauctionhouse.gui;
 
+import eu.pb4.sgui.api.elements.GuiElement;
+import eu.pb4.sgui.api.elements.GuiElementBuilder;
+import eu.pb4.sgui.api.elements.GuiElementBuilderInterface;
+import eu.pb4.sgui.api.elements.GuiElementInterface;
 import eu.pb4.sgui.api.gui.SimpleGui;
-import eu.pb4.sgui.api.elements.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
@@ -19,6 +22,9 @@ import unsafedodo.fabricauctionhouse.config.ConfigManager;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
+
+import static unsafedodo.fabricauctionhouse.AuctionHouseMain.LOGGER;
+import static unsafedodo.fabricauctionhouse.AuctionHouseMain.SKULL_OWNER;
 
 
 public class GUIAuctionHouse extends SimpleGui {
@@ -43,7 +49,7 @@ public class GUIAuctionHouse extends SimpleGui {
         try{
             this.updateDisplay();
         } catch (FileNotFoundException | UnsupportedEncodingException e){
-            e.printStackTrace();
+            LOGGER.error("Error updating display", e);
         }
 
     }
@@ -103,7 +109,7 @@ public class GUIAuctionHouse extends SimpleGui {
             case 4 -> DisplayElement.of(
                     new GuiElementBuilder(Items.BARRIER)
                             .setName(Text.translatable("spectatorMenu.close").formatted(Formatting.RED))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback((index, type1, action) -> {
                                 playClickSound(this.player);
                                 this.close();
@@ -113,7 +119,7 @@ public class GUIAuctionHouse extends SimpleGui {
             case 8 -> DisplayElement.of(
                     new GuiElementBuilder(Items.HOPPER)
                             .setName(Text.translatable("Expired Items").formatted(Formatting.RED))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback((index, type1, action) -> {
                                 playClickSound(this.player);
                                 this.openExpiredGui();
@@ -189,10 +195,10 @@ public class GUIAuctionHouse extends SimpleGui {
 
     private DisplayElement skull() {
         ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
-        stack.getOrCreateNbt().putString("SkullOwner",  player.getName().getString());
+        stack.set(SKULL_OWNER, player.getName().getString());
         return DisplayElement.of(GuiElementBuilder.from(stack)
                 .setName(Text.literal("My Items").formatted(Formatting.BLUE))
-                .hideFlags()
+                .hideDefaultTooltip()
                 .setCallback((index, type1, action) -> {
                     playClickSound(this.player);
                     openPersonal();
@@ -201,7 +207,7 @@ public class GUIAuctionHouse extends SimpleGui {
     }
 
     protected static void playClickSound(ServerPlayerEntity player) {
-        player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.MASTER, 1, 1);
+        player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.MASTER, 1, 1);
     }
 
 
@@ -211,7 +217,7 @@ public class GUIAuctionHouse extends SimpleGui {
         private static final DisplayElement FILLER = DisplayElement.of(
                 new GuiElementBuilder(Items.LIGHT_GRAY_STAINED_GLASS_PANE)
                         .setName(Text.literal(""))
-                        .hideFlags()
+                        .hideDefaultTooltip()
         );
 
         public static DisplayElement of(GuiElementInterface element) {
@@ -227,7 +233,7 @@ public class GUIAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.next_page").formatted(Formatting.WHITE))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_NEXT_PAGE)
                                 .setCallback((index, type1, action) -> {
                                     playClickSound(gui.player);
@@ -241,7 +247,7 @@ public class GUIAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.next_page").formatted(Formatting.DARK_GRAY))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_NEXT_PAGE_BLOCKED));
             }
         }
@@ -251,7 +257,7 @@ public class GUIAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.previous_page").formatted(Formatting.WHITE))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE)
                                 .setCallback((x, y, z) -> {
                                     playClickSound(gui.player);
@@ -265,7 +271,7 @@ public class GUIAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.previous_page").formatted(Formatting.DARK_GRAY))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE_BLOCKED));
             }
         }

@@ -101,7 +101,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
             case 0 -> DisplayElement.of(
                     new GuiElementBuilder(Items.RED_CONCRETE)
                             .setName(Text.literal("Back").formatted(Formatting.RED))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback((x, y, z) -> {
                                 playClickSound(this.player);
                                 try {
@@ -114,7 +114,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
             case 4 -> DisplayElement.of(
                     new GuiElementBuilder(Items.BARRIER)
                             .setName(Text.translatable("spectatorMenu.close").formatted(Formatting.RED))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback((x, y, z) -> {
                                 playClickSound(this.player);
                                 this.close();
@@ -124,7 +124,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
             case 8 -> DisplayElement.of(
                     new GuiElementBuilder(Items.HOPPER)
                             .setName(Text.literal("Expired Items").formatted(Formatting.RED))
-                            .hideFlags()
+                            .hideDefaultTooltip()
                             .setCallback((x, y, z) -> {
                                 playClickSound(this.player);
                                 this.openExpiredGui();
@@ -197,7 +197,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
     }
 
     private static void playClickSound(ServerPlayerEntity player) {
-        player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.MASTER, 1, 1);
+        player.playSoundToPlayer(SoundEvents.UI_BUTTON_CLICK.value(), SoundCategory.MASTER, 1, 1);
     }
 
     public record DisplayElement(@Nullable GuiElementInterface element, @Nullable Slot slot) {
@@ -205,7 +205,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
         private static final DisplayElement FILLER = DisplayElement.of(
                 new GuiElementBuilder(Items.LIGHT_GRAY_STAINED_GLASS_PANE)
                         .setName(Text.literal(""))
-                        .hideFlags()
+                        .hideDefaultTooltip()
         );
 
         public static DisplayElement of(GuiElementInterface element) {
@@ -221,7 +221,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.next_page").formatted(Formatting.WHITE))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_NEXT_PAGE)
                                 .setCallback((x, y, z) -> {
                                     playClickSound(gui.player);
@@ -231,7 +231,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.next_page").formatted(Formatting.DARK_GRAY))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_NEXT_PAGE_BLOCKED));
             }
         }
@@ -241,7 +241,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.previous_page").formatted(Formatting.WHITE))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE)
                                 .setCallback((x, y, z) -> {
                                     playClickSound(gui.player);
@@ -251,7 +251,7 @@ public class GUIPersonalAuctionHouse extends SimpleGui {
                 return DisplayElement.of(
                         new GuiElementBuilder(Items.PLAYER_HEAD)
                                 .setName(Text.translatable("spectatorMenu.previous_page").formatted(Formatting.DARK_GRAY))
-                                .hideFlags()
+                                .hideDefaultTooltip()
                                 .setSkullOwner(HeadTextures.GUI_PREVIOUS_PAGE_BLOCKED));
             }
         }
