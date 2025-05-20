@@ -90,6 +90,9 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
+}
+
+remapJar {
 	destinationDirectory.set(file("$rootDir/output"))
 }
 
