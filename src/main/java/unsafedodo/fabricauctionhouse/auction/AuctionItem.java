@@ -1,12 +1,12 @@
 package unsafedodo.fabricauctionhouse.auction;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.google.gson.JsonParser;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+
+import static unsafedodo.fabricauctionhouse.util.ComponentMapSerializer.deserialize;
+import static unsafedodo.fabricauctionhouse.util.ComponentMapSerializer.serialize;
 
 public class AuctionItem {
     private final ItemStack itemStack;
@@ -22,24 +22,15 @@ public class AuctionItem {
         this.itemStack = stack;
         this.uuid = playerUuid;
         this.owner = owner;
-        this.nbt = itemStack.getOrCreateNbt().asString();
+        this.nbt = serialize(itemStack.getComponents()).getAsString();
         this.price = price;
         this.secondsLeft = secondsLeft;
     }
 
     public AuctionItem(int id, String playerUuid, String owner, String nbt, String item, int count, double price, long secondsLeft) {
-        ItemStack itemStack1;
         this.id = id;
-        try {
-            itemStack1 = new ItemStack(Registries.ITEM.get(new Identifier(item)), count);
-            NbtCompound tnbt = StringNbtReader.parse(nbt);
-            tnbt.remove("palette");
-            itemStack1.setNbt(tnbt);
-        } catch (CommandSyntaxException e) {
-            e.printStackTrace();
-            itemStack1 = new ItemStack(Items.AIR);
-        }
-        this.itemStack = itemStack1;
+        this.itemStack = new ItemStack(Registries.ITEM.get(Identifier.of(item)), count);
+        this.itemStack.applyComponentsFrom(deserialize(JsonParser.parseString(nbt)));
         this.nbt = nbt;
         this.uuid = playerUuid;
         this.owner = owner;
