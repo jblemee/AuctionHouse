@@ -8,15 +8,18 @@ This is a fork of [FabricAuctionHouse](https://github.com/UnsafeDodo/fabric-auct
 a server-side auction mod that is compatible with multiple economy mod and loader.
 
 TodoList: 
- - [ ] NeoForge Support
  - [ ] Multi-currency support
 
 
 ## Installation
 Put the .jar file in the "mods" folder
+You also need to download and copy the required mods jar.
 
-**(Requires a [supported Economy mod](#supported-economies))**
-<br>
+
+**Required mods:**
+ -  The [SQLite Mod](https://modrinth.com/plugin/minecraft-sqlite-jdbc)
+   -  One of the [supported Economy mod](#supported-economies)
+
 
 ## Commands and permissions
 All commands can be used by default users (permission level 0), except for the `reload` command, which can be used by OP (permission level 4) or by users/groups with the specific permission

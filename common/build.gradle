@@ -1,0 +1,41 @@
+architectury {
+    common rootProject.enabled_platforms.split(',')
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.nucleoid.xyz/' }
+    flatDir {
+        dir 'libs'
+    }
+    maven{
+        name 'Impactor Economy'
+        url  "https://maven.impactdev.net/repository/development"
+    }
+}
+
+dependencies {
+    compileOnly "net.luckperms:api:5.4"
+
+    implementation ("net.impactdev.impactor.api:economy:5.3.2") {
+        exclude group: "net.kyori"
+    }
+    implementation "co.lemee.realeconomy:realeconomy:0.1.1+1.21.4-dev"
+
+    modImplementation "org.sqlite:sqlite-jdbc:3.49.1.0"
+    modImplementation "eu.pb4:sgui:1.6.1+1.21.1"
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+    }
+}
