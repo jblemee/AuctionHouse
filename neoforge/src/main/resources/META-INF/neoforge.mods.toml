@@ -1,0 +1,29 @@
+modLoader="javafml" #mandatory
+loaderVersion="[1,)"
+license="WTFPL"
+issueTrackerURL="https://github.com/jblemee/AuctionHouse/issues"
+
+[[mods]]
+modId="auctionhouse"
+version="${version}"
+displayName="Auction House"
+authors="Jean-Baptiste Lemée"
+description="A server-side mod (or plugin) that allows users to sell items to all other players."
+logoFile="icon.png"
+
+[[mixins]]
+    config="auctionhouse.mixins.json"
+
+[[dependencies.auctionhouse]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.auctionhouse]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.1,1.21.3)"
+    ordering="NONE"
+    side="BOTH"
