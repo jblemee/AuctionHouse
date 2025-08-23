@@ -3,6 +3,7 @@ package co.lemee.auctionhouse.sql;
 import co.lemee.auctionhouse.AuctionHouseMod;
 import co.lemee.auctionhouse.auction.AuctionItem;
 import co.lemee.auctionhouse.util.CommonMethods;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -161,7 +162,7 @@ public class SQLiteDatabaseManager implements DatabaseManager {
             pstmt.setString(2, item.getUuid());
             pstmt.setString(3, item.getOwner());
             pstmt.setString(4, item.getNbt());
-            pstmt.setString(5, item.getName());
+            pstmt.setString(5, BuiltInRegistries.ITEM.getKey(item.getItemStack().getItem()).toString());
             pstmt.setInt(6, item.getItemStack().getCount());
             pstmt.setDouble(7, item.getPrice());
             pstmt.executeUpdate();
