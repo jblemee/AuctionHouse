@@ -23,6 +23,7 @@ public abstract class AuctionHouseMod {
     public static ArrayList<String> tableRegistry = new ArrayList<>();
     public static boolean impactor = false;
     public static boolean realeconomy = false;
+    public static MinecraftServer server;
 
     static {
         try {
@@ -38,6 +39,7 @@ public abstract class AuctionHouseMod {
     }
 
     public static void onServerStarted(MinecraftServer server) {
+        AuctionHouseMod.server = server;
         SQLiteDatabaseManager.createTables(tableRegistry);
         CommonMethods.reloadHouse();
         CommonMethods.reloadExpired();
