@@ -42,3 +42,6 @@ replay_*.log
 #Stuff
 .github/
 .architectury-transformer
+
+# secrets
+.env
