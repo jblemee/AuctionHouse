@@ -17,13 +17,13 @@ logoFile="icon.png"
 [[dependencies.auctionhouse]]
     modId="neoforge"
     type="required"
-    versionRange="[21.1.1,)"
+    versionRange="[21.8,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.auctionhouse]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21.1,1.21.3)"
+    versionRange="[1.21.8,1.21.9)"
     ordering="NONE"
     side="BOTH"
