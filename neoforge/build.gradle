@@ -39,7 +39,7 @@ repositories {
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
 
-    modImplementation include("eu.pb4:sgui:1.9.1+1.21.8-neoforge")
+    modImplementation include("eu.pb4:sgui:1.9.1+1.21.10-neoforge")
 
     // SQLite JDBC for dev runtime (normally provided by minecraft-sqlite-jdbc mod)
     implementation 'org.xerial:sqlite-jdbc:3.47.0.0'
