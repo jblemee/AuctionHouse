@@ -36,7 +36,7 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version+$rootProject.minecraft_version"
 
     modImplementation include('me.lucko:fabric-permissions-api:0.4.0')
-    modImplementation include("eu.pb4:sgui:1.9.1+1.21.1-fabric")
+    modImplementation include("eu.pb4:sgui:1.10.2+1.21.8")
 
     // SQLite JDBC for dev runtime (normally provided by minecraft-sqlite-jdbc mod)
     runtimeOnly 'org.xerial:sqlite-jdbc:3.47.0.0'
