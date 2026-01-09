@@ -29,7 +29,7 @@ public class AuctionItem {
 
     public AuctionItem(int id, String playerUuid, String owner, String nbt, String item, int count, double price, long secondsLeft) {
         this.id = id;
-        this.itemStack = new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(item)), count);
+        this.itemStack = new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(item)).orElseThrow(), count);
         this.itemStack.applyComponents(deserialize(JsonParser.parseString(nbt)));
         this.nbt = nbt;
         this.uuid = playerUuid;
